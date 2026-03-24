@@ -6,7 +6,6 @@ A personal journal and task planner desktop application built with **WPF (.NET 8
 
 ## Screenshots
 
-> _Add your screenshots to a `screenshots/` folder and update the paths below._
 
 | Login | Home |
 |-------|------|
