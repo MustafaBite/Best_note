@@ -1,0 +1,115 @@
+<Window x:Class="NOT_VE_GÜNLÜK.InputDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Gün Başlığı" Height="237" Width="400"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="{DynamicResource JournalBackground}">
+    
+    <Grid>
+        <!-- Arkaplan Katmanı (Overlay) -->
+        <Border Background="{DynamicResource JournalOverlay}"/>
+
+        <Border Padding="30">
+            <StackPanel>
+                <Grid Margin="0,0,0,15">
+                    <TextBlock x:Name="txtPrompt" Text="Bu güne isim verin:" FontSize="14" 
+                               Foreground="{DynamicResource JournalForeground}" VerticalAlignment="Center"/>
+                    
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <Button x:Name="btnLightTheme" Content="☀️" FontSize="14" 
+                                Background="Transparent" BorderThickness="0" Cursor="Hand"
+                                Click="Theme_Click" Tag="Light" Opacity="0.6">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Opacity" Value="1.0"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        <Button x:Name="btnDarkTheme" Content="🌙" FontSize="14" 
+                                Background="Transparent" BorderThickness="0" Cursor="Hand"
+                                Click="Theme_Click" Tag="Dark" Opacity="0.6" Margin="8,0,0,0">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Opacity" Value="1.0"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            
+            <TextBox x:Name="txtInput" Height="40" FontSize="14" Padding="10"
+                     BorderBrush="{DynamicResource JournalBorder}" BorderThickness="1" Background="{DynamicResource JournalButtonBackground}" Foreground="{DynamicResource JournalForeground}"
+                     CaretBrush="{DynamicResource JournalForeground}">
+                <TextBox.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="6"/>
+                    </Style>
+                </TextBox.Resources>
+            </TextBox>
+            
+            <Grid Margin="0,20,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <Button Grid.Column="0" Content="İptal" Height="40" FontSize="14"
+                        Background="{DynamicResource JournalButtonBackground}" Foreground="{DynamicResource JournalForeground}" BorderThickness="0"
+                        Click="Cancel_Click" Cursor="Hand">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="{DynamicResource JournalButtonHover}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                
+                <Button Grid.Column="2" Content="Tamam" Height="40" FontSize="14"
+                        Background="#3B82F6" Foreground="White" BorderThickness="0"
+                        Click="OK_Click" Cursor="Hand">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#2563EB"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </Grid>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

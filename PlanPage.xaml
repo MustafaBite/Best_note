@@ -1,0 +1,153 @@
+<Window x:Class="NOT_VE_GÜNLÜK.PlanPage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:NOT_VE_GÜNLÜK"
+        Title="Plan &amp; Not" Height="700" Width="1100"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource JournalBackground}">
+
+    <Window.Resources>
+        <local:TaskStatusToEmojiConverter x:Key="TaskStatusToEmojiConverter"/>
+        <local:TaskStatusToVisibilityConverter x:Key="TaskStatusToVisibilityConverter"/>
+    </Window.Resources>
+
+    <Grid>
+        <!-- Arkaplan Katmanı (Overlay) -->
+        <Border Background="{DynamicResource JournalOverlay}"/>
+        
+        <!-- Header -->
+        <Grid Height="80" VerticalAlignment="Top" Margin="40,20,40,0">
+            <Button HorizontalAlignment="Left" VerticalAlignment="Center"
+                    Background="Transparent" BorderThickness="0" Cursor="Hand" Click="Back_Click">
+                <TextBlock Text="←" FontSize="30" Foreground="{DynamicResource JournalForeground}"/>
+            </Button>
+
+            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,5">
+                    <Button Content="☀️" FontSize="20" Background="Transparent" BorderThickness="0" Cursor="Hand" Click="Theme_Click" Tag="Light" Opacity="0.5"/>
+                    <Button Content="🌙" FontSize="20" Background="Transparent" BorderThickness="0" Cursor="Hand" Click="Theme_Click" Tag="Dark" Opacity="0.5"/>
+                </StackPanel>
+                <TextBlock x:Name="txtDate" Text="..." FontSize="16" Foreground="{DynamicResource JournalSecondaryForeground}" HorizontalAlignment="Right"/>
+            </StackPanel>
+        </Grid>
+
+        <StackPanel Margin="40,110,40,20">
+            <!-- Title Section -->
+            <StackPanel Orientation="Horizontal" x:Name="pnlDayTitle" Visibility="Collapsed" Margin="0,0,0,30">
+                <TextBlock x:Name="txtDayTitle" Text="" FontSize="32" FontWeight="Bold" Foreground="{DynamicResource JournalForeground}"/>
+                <Button x:Name="btnEditTitle" Content="✏️" FontSize="20" Margin="15,0,0,0" Background="Transparent" BorderThickness="0" Cursor="Hand" VerticalAlignment="Center" Click="NameDay_Click" Opacity="0.5"/>
+            </StackPanel>
+            <Button x:Name="btnNameDay" Content="Bugüne isim ver" FontSize="16" Foreground="{DynamicResource JournalSecondaryForeground}" Background="Transparent" BorderThickness="0" HorizontalAlignment="Left" Padding="0" Margin="0,0,0,30" Cursor="Hand" Click="NameDay_Click"/>
+
+            <!-- Task Input -->
+            <Border x:Name="pnlNewTask" Background="{DynamicResource JournalButtonBackground}" CornerRadius="10" Padding="15" Margin="0,0,0,20">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="txtTaskInput" FontSize="16" Background="Transparent" BorderThickness="0" Foreground="{DynamicResource JournalForeground}" VerticalAlignment="Center" KeyDown="TaskInput_KeyDown"/>
+                    <TextBlock Text="Yeni görev ekle..." FontSize="16" Foreground="{DynamicResource JournalSecondaryForeground}" IsHitTestVisible="False" VerticalAlignment="Center" Margin="5,0,0,0">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text, ElementName=txtTaskInput}" Value="">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <Button Grid.Column="1" Content="Ekle" Padding="15,5" Background="#3B82F6" Foreground="White" BorderThickness="0" Cursor="Hand" Click="AddTask_Click">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </Grid>
+            </Border>
+
+            <!-- Task List -->
+            <ScrollViewer VerticalScrollBarVisibility="Hidden" Height="400">
+                <ItemsControl x:Name="lstTasks">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="Transparent" Margin="0,0,0,10" 
+                                    MouseLeftButtonDown="Task_MouseLeftButtonDown"
+                                    MouseRightButtonDown="Task_MouseRightButtonDown"
+                                    Cursor="Hand" ToolTip="Sol Tık: Bitir | Sağ Tık: Yarım Bırak">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <!-- Custom Checkbox/Status Box -->
+                                    <Border Width="24" Height="24" BorderThickness="2" BorderBrush="{DynamicResource JournalBorder}" CornerRadius="5" Background="Transparent" Margin="0,0,15,0">
+                                        <Grid>
+                                            <!-- Half Bar -->
+                                            <Border Background="#F1C40F" HorizontalAlignment="Left" Width="10" Visibility="{Binding Status, Converter={StaticResource TaskStatusToVisibilityConverter}, ConverterParameter=HalfDone}"/>
+                                            <!-- Completed X -->
+                                            <TextBlock Text="X" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Foreground="#EF4444" 
+                                                       Visibility="{Binding Status, Converter={StaticResource TaskStatusToVisibilityConverter}, ConverterParameter=Completed}"/>
+                                        </Grid>
+                                    </Border>
+
+                                    <TextBlock Grid.Column="1" Text="{Binding Title}" FontSize="18" VerticalAlignment="Center" Foreground="{DynamicResource JournalForeground}">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Status}" Value="Completed">
+                                                        <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                                        <Setter Property="Opacity" Value="0.5"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Status}" Value="HalfDone">
+                                                        <Setter Property="Opacity" Value="0.8"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+
+                                    <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                        <!-- Emoji Indication -->
+                                        <TextBlock Margin="0,0,15,0" FontSize="18" VerticalAlignment="Center">
+                                            <TextBlock.Text>
+                                                <MultiBinding Converter="{StaticResource TaskStatusToEmojiConverter}">
+                                                    <Binding Path="Status"/>
+                                                    <Binding Path="DataContext.CurrentDate" RelativeSource="{RelativeSource AncestorType=Window}"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+
+                                        <Button x:Name="btnDeleteTask" Content="🗑️" Background="Transparent" BorderThickness="0" Foreground="#EF4444" Cursor="Hand" Click="DeleteTask_Click" Opacity="0.3">
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Opacity" Value="1.0"/>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </StackPanel>
+
+        <!-- Navigation -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,30">
+            <Button Content="‹" FontSize="24" Width="40" Height="40" Background="Transparent" BorderThickness="0" Cursor="Hand" Click="PrevDate_Click" Foreground="{DynamicResource JournalSecondaryForeground}"/>
+            <Button Content="⚙️" FontSize="20" Width="40" Height="40" Background="Transparent" BorderThickness="0" Cursor="Hand" Click="Settings_Click" Margin="20,0,20,0" Foreground="{DynamicResource JournalSecondaryForeground}"/>
+            <Button Content="›" FontSize="24" Width="40" Height="40" Background="Transparent" BorderThickness="0" Cursor="Hand" Click="NextDate_Click" Foreground="{DynamicResource JournalSecondaryForeground}"/>
+        </StackPanel>
+    </Grid>
+</Window>

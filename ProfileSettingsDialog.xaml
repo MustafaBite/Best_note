@@ -1,0 +1,245 @@
+<Window x:Class="NOT_VE_GÜNLÜK.ProfileSettingsDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Profil Ayarları" Height="700" Width="420"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="{DynamicResource JournalBackground}">
+    
+    <Border Padding="30" Background="{DynamicResource JournalBackground}">
+        <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel x:Name="SettingsContent">
+            <!-- Header, Photo, Name, and Password sections... -->
+            <Grid Margin="0,0,0,25">
+                <TextBlock Text="Profil Ayarları" FontSize="18" FontWeight="SemiBold"
+                           Foreground="{DynamicResource JournalForeground}" VerticalAlignment="Center"/>
+            </Grid>
+            
+            <!-- Profil Fotoğrafı -->
+            <Grid HorizontalAlignment="Center" Margin="0,0,0,20">
+                <Ellipse x:Name="ProfileEllipse" Width="100" Height="100" Fill="#3B82F6" Stroke="{DynamicResource JournalBorder}" StrokeThickness="1"/>
+                <TextBlock x:Name="txtProfilePlaceholder" Text="M" FontSize="36" FontWeight="Bold" Foreground="White"
+                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Grid>
+            
+            <Button Content="Fotoğraf Değiştir" Height="35" FontSize="13"
+                    Background="{DynamicResource JournalButtonBackground}" Foreground="{DynamicResource JournalForeground}" BorderThickness="0"
+                    Margin="0,0,0,20" Cursor="Hand" Click="ChangePhoto_Click">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource JournalButtonHover}"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            
+            <TextBlock Text="Görünen İsim" FontSize="13" Foreground="{DynamicResource JournalSecondaryForeground}" Margin="0,0,0,8"/>
+            <TextBox x:Name="txtDisplayName" Height="40" FontSize="14" Padding="10"
+                      BorderBrush="{DynamicResource JournalBorder}" BorderThickness="1" Background="{DynamicResource JournalButtonBackground}" Foreground="{DynamicResource JournalForeground}"
+                      CaretBrush="{DynamicResource JournalForeground}" TextChanged="txtDisplayName_TextChanged">
+
+                <TextBox.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="6"/>
+                    </Style>
+                </TextBox.Resources>
+            </TextBox>
+
+            <TextBlock Text="Şifre Değiştir (8 Karakter)" FontSize="13" Foreground="{DynamicResource JournalSecondaryForeground}" Margin="0,15,0,8"/>
+            <Grid>
+                <PasswordBox x:Name="pbNewPassword" Height="40" FontSize="14" Padding="10,8"
+                             BorderBrush="{DynamicResource JournalBorder}" BorderThickness="1" Background="{DynamicResource JournalButtonBackground}" Foreground="{DynamicResource JournalForeground}"
+                             MaxLength="8">
+                </PasswordBox>
+                <TextBox x:Name="txtNewPasswordVisible" Visibility="Collapsed" Height="40" FontSize="14" Padding="10"
+                         BorderBrush="{DynamicResource JournalBorder}" BorderThickness="1" Background="{DynamicResource JournalButtonBackground}" Foreground="{DynamicResource JournalForeground}"
+                         CaretBrush="{DynamicResource JournalForeground}" MaxLength="8"/>
+                
+                <Button x:Name="btnTogglePassword" HorizontalAlignment="Right" VerticalAlignment="Center" 
+                        Background="Transparent" BorderThickness="0" Margin="0,0,10,0" Click="TogglePassword_Click" Cursor="Hand">
+                    <TextBlock x:Name="tbEyeIcon" Text="👁️" Foreground="{DynamicResource JournalSecondaryForeground}" FontSize="16"/>
+                </Button>
+            </Grid>
+            
+            <TextBlock Text="Görünüm Ayarları" FontSize="15" FontWeight="SemiBold" Foreground="{DynamicResource JournalForeground}" Margin="0,15,0,15"/>
+            
+            <TextBlock Text="Uygulama Teması" FontSize="13" Foreground="{DynamicResource JournalSecondaryForeground}" Margin="0,0,0,8"/>
+            <UniformGrid Columns="2" Margin="0,0,0,20">
+                <Button x:Name="btnLightTheme" Height="45" Margin="0,0,10,0" Tag="Light" Click="Theme_Click" Cursor="Hand">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="{DynamicResource JournalButtonBackground}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource JournalForeground}"/>
+                            <Setter Property="BorderThickness" Value="1"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource JournalBorder}"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="8">
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <TextBlock Text="☀️" FontSize="16" Margin="0,0,8,0"/>
+                                                <TextBlock Text="Aydınlık" FontSize="14"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="{DynamicResource JournalButtonHover}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                
+                <Button x:Name="btnDarkTheme" Height="45" Margin="10,0,0,0" Tag="Dark" Click="Theme_Click" Cursor="Hand">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="{DynamicResource JournalButtonBackground}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource JournalForeground}"/>
+                            <Setter Property="BorderThickness" Value="1"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource JournalBorder}"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="8">
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <TextBlock Text="🌙" FontSize="16" Margin="0,0,8,0"/>
+                                                <TextBlock Text="Karanlık" FontSize="14"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="{DynamicResource JournalButtonHover}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </UniformGrid>
+
+            <TextBlock Text="Metin Rengi" FontSize="13" Foreground="{DynamicResource JournalSecondaryForeground}" Margin="0,0,0,8"/>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                <Button Width="45" Height="45" Padding="0" Background="Transparent" BorderThickness="0" Cursor="Hand" Click="Color_Click" Tag="Auto" ToolTip="Otomatik">
+                    <Grid>
+                        <Ellipse Stroke="{DynamicResource JournalBorder}" StrokeThickness="2" Fill="Transparent"/>
+                        <TextBlock Text="A" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource JournalForeground}"/>
+                    </Grid>
+                </Button>
+                <Button Width="45" Height="45" Padding="0" Margin="12,0,0,0" Background="Transparent" BorderThickness="0" Cursor="Hand" Click="Color_Click" Tag="#FFFFFF" ToolTip="Beyaz">
+                    <Ellipse Fill="White" Stroke="{DynamicResource JournalBorder}" StrokeThickness="1.5"/>
+                </Button>
+                <Button Width="45" Height="45" Padding="0" Margin="12,0,0,0" Background="Transparent" BorderThickness="0" Cursor="Hand" Click="Color_Click" Tag="#000000" ToolTip="Siyah">
+                    <Ellipse Fill="Black" Stroke="{DynamicResource JournalBorder}" StrokeThickness="1.5"/>
+                </Button>
+                <Button Width="45" Height="45" Padding="0" Margin="12,0,0,0" Background="Transparent" BorderThickness="0" Cursor="Hand" Click="Color_Click" Tag="#3B82F6" ToolTip="Mavi">
+                    <Ellipse Fill="#3B82F6" Stroke="White" StrokeThickness="1.5"/>
+                </Button>
+                <Button Width="45" Height="45" Padding="0" Margin="12,0,0,0" Background="Transparent" BorderThickness="0" Cursor="Hand" Click="Color_Click" Tag="#EF4444" ToolTip="Kırmızı">
+                    <Ellipse Fill="#EF4444" Stroke="White" StrokeThickness="1.5"/>
+                </Button>
+                <Button Width="45" Height="45" Padding="0" Margin="12,0,0,0" Background="Transparent" BorderThickness="0" Cursor="Hand" Click="Color_Click" Tag="#10B981" ToolTip="Yeşil">
+                    <Ellipse Fill="#10B981" Stroke="White" StrokeThickness="1.5"/>
+                </Button>
+                <Button Width="45" Height="45" Padding="0" Margin="12,0,0,0" Background="Transparent" BorderThickness="0" Cursor="Hand" Click="Color_Click" Tag="#F59E0B" ToolTip="Turuncu">
+                    <Ellipse Fill="#F59E0B" Stroke="White" StrokeThickness="1.5"/>
+                </Button>
+            </StackPanel>
+
+            <!-- Alt Butonlar -->
+            <Grid Margin="0,30,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="15"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <Button Grid.Column="0" Content="İptal" Height="40" FontSize="14"
+                        Background="{DynamicResource JournalButtonBackground}" Foreground="{DynamicResource JournalForeground}" BorderThickness="0"
+                        Click="Cancel_Click" Cursor="Hand">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="{DynamicResource JournalButtonHover}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                
+                <Button Grid.Column="2" Content="Kaydet" Height="40" FontSize="14"
+                        Background="#3B82F6" Foreground="White" BorderThickness="0"
+                        Click="Save_Click" Cursor="Hand">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#2563EB"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </Grid>
+
+            <Button Content="Oturumu Kapat" Height="40" FontSize="14"
+                    Background="Transparent" Foreground="#EF4444" BorderBrush="#EF4444" BorderThickness="1"
+                    Click="Logout_Click" Cursor="Hand" Margin="0,20,0,0">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="8">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FEE2E2"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </StackPanel>
+        </ScrollViewer>
+    </Border>
+</Window>

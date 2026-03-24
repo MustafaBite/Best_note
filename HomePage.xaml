@@ -1,0 +1,188 @@
+<Window x:Class="NOT_VE_GÜNLÜK.HomePage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:NOT_VE_GÜNLÜK"
+        Title="Günlük &amp; Plan" Height="700" Width="1100"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource JournalBackground}">
+    
+    <Window.Resources>
+        <local:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+    </Window.Resources>
+    
+    <Grid>
+        <!-- Arkaplan Katmanı (Overlay) -->
+        <Border Background="{DynamicResource JournalOverlay}"/>
+        
+        <!-- Üst Bar -->
+        <Border Height="70" VerticalAlignment="Top" Background="{DynamicResource JournalButtonBackground}" 
+                BorderBrush="{DynamicResource JournalBorder}" BorderThickness="0,0,0,1">
+            <Grid>
+                <!-- Ayarlar İkonu (Sol) -->
+                <Button HorizontalAlignment="Left" Margin="30,0,0,0" 
+                        Width="40" Height="40" Background="Transparent" 
+                        BorderThickness="0" Cursor="Hand" Click="Settings_Click">
+                    <TextBlock Text="⚙️" FontSize="24" Foreground="{DynamicResource JournalForeground}"/>
+                </Button>
+
+                <!-- Kullanıcı Adı (Orta) -->
+                <TextBlock Text="{Binding UserName}" FontSize="20" FontWeight="SemiBold"
+                           HorizontalAlignment="Center" VerticalAlignment="Center"
+                           Foreground="{DynamicResource JournalForeground}"/>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,30,0">
+                    <!-- Tema Butonları -->
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,20,0">
+                        <Button x:Name="btnLightTheme" Content="☀️" FontSize="18" 
+                                Background="Transparent" BorderThickness="0" Cursor="Hand"
+                                Click="Theme_Click" Tag="Light" Opacity="0.6">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Opacity" Value="1.0"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        <Button x:Name="btnDarkTheme" Content="🌙" FontSize="18" 
+                                Background="Transparent" BorderThickness="0" Cursor="Hand"
+                                Click="Theme_Click" Tag="Dark" Opacity="0.6" Margin="10,0,0,0">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Opacity" Value="1.0"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </StackPanel>
+
+                    <!-- Profil Fotoğrafı (Sağ) -->
+                    <Grid HorizontalAlignment="Right" Margin="0,0,0,0">
+                        <Ellipse Width="45" Height="45" Fill="#3B82F6" Stroke="Transparent" StrokeThickness="0">
+                            <Ellipse.Effect>
+                                <DropShadowEffect BlurRadius="8" ShadowDepth="2" Opacity="0.4"/>
+                            </Ellipse.Effect>
+                        </Ellipse>
+                        
+                        <!-- Default Placeholder Text -->
+                        <TextBlock Text="M" FontSize="18" FontWeight="Bold" Foreground="White"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"
+                                   Visibility="{Binding ProfileImageSource, Converter={StaticResource NullToVisibilityConverter}}"/>
+
+                        <Ellipse Width="45" Height="45">
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="{Binding ProfileImageSource}" Stretch="UniformToFill"/>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Ana İçerik Alanı -->
+        <Grid Margin="0,70,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Arkaplan Katmanı (Overlay) -->
+            <Border Background="{DynamicResource JournalOverlay}" Grid.ColumnSpan="2"/>
+            
+            <!-- Sol Panel - Yeni Günlük Butonu -->
+            <StackPanel Grid.Column="0" Margin="30,40,0,0">
+                <Button Width="60" Height="60" Background="#3B82F6"
+                        BorderThickness="0" Cursor="Hand"
+                        ToolTip="Yeni Ekle" Click="AddJournal_Click">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
+                                                CornerRadius="30">
+                                            <Border.Effect>
+                                                <DropShadowEffect BlurRadius="15" ShadowDepth="3" 
+                                                                  Opacity="0.4" Color="#3B82F6"/>
+                                            </Border.Effect>
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                              VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#2563EB"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                    <TextBlock Text="+" FontSize="32" FontWeight="Bold" 
+                               Foreground="White"/>
+                </Button>
+            </StackPanel>
+
+            <!-- Orta Panel - Günlükler Listesi -->
+            <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Hidden" BorderThickness="0">
+                <StackPanel Margin="50,40,50,40">
+                    <TextBlock Text="Günlükler &amp; Planlar" FontSize="28" FontWeight="Bold"
+                               Foreground="{DynamicResource JournalForeground}" Margin="0,0,0,25"/>
+
+                    <!-- Günlükler Listesi -->
+                    <ItemsControl ItemsSource="{Binding Journals}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="{DynamicResource JournalButtonBackground}" CornerRadius="12" Padding="25"
+                                        Margin="0,0,0,15" Cursor="Hand" MouseLeftButtonDown="JournalCard_Click"
+                                        BorderBrush="{DynamicResource JournalBorder}" BorderThickness="1">
+                                    <Border.Effect>
+                                        <DropShadowEffect BlurRadius="20" ShadowDepth="2" 
+                                                          Opacity="0.1" Color="Black"/>
+                                    </Border.Effect>
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="{DynamicResource JournalButtonHover}"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock Text="{Binding Title}" FontSize="20" 
+                                                       FontWeight="SemiBold" Foreground="{DynamicResource JournalForeground}"/>
+                                            <TextBlock Text="{Binding UpdateTimeDescription}" FontSize="13" 
+                                                       Foreground="{DynamicResource JournalSecondaryForeground}" Margin="0,5,0,0"/>
+                                        </StackPanel>
+                                        
+                                        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                                            <Button Content="🗑️" FontSize="16" Background="Transparent" BorderThickness="0"
+                                                    Foreground="#EF4444" Cursor="Hand" Margin="0,0,16,0"
+                                                    ToolTip="Sil"
+                                                    Click="DeleteJournal_Click" Tag="{Binding}"/>
+                                            
+                                            <TextBlock Text="{Binding Icon}" FontSize="24" Foreground="{DynamicResource JournalSecondaryForeground}"
+                                                       VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Window>

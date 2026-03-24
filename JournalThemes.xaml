@@ -1,0 +1,34 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <!-- Global/Base Resources (Visible to Designer) -->
+    <SolidColorBrush x:Key="JournalForeground" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="JournalSecondaryForeground" Color="#CBD5E1"/>
+    <SolidColorBrush x:Key="JournalButtonBackground" Color="#1E293B"/>
+    <SolidColorBrush x:Key="JournalButtonHover" Color="#334155"/>
+    <SolidColorBrush x:Key="JournalBorder" Color="#3B82F6"/>
+    <SolidColorBrush x:Key="JournalBackground" Color="#000000"/>
+    <SolidColorBrush x:Key="JournalOverlay" Color="#000000" Opacity="0.4"/>
+    <ResourceDictionary x:Key="LightTheme">
+        <ImageBrush x:Key="JournalBackground" ImageSource="background.png" Stretch="UniformToFill"/>
+        <SolidColorBrush x:Key="JournalOverlay" Color="White" Opacity="0.5"/>
+        <SolidColorBrush x:Key="JournalForeground" Color="#0F172A"/> <!-- Darker slate for better legibility -->
+        <SolidColorBrush x:Key="JournalSecondaryForeground" Color="#334155"/>
+        <SolidColorBrush x:Key="JournalButtonBackground" Color="White" Opacity="0.8"/>
+        <SolidColorBrush x:Key="JournalButtonHover" Color="#E2E8F0" Opacity="1.0"/>
+        <SolidColorBrush x:Key="JournalBorder" Color="#3B82F6" Opacity="0.5"/>
+    </ResourceDictionary>
+
+    <!-- Dark Theme (Modern Blue & Image) -->
+    <ResourceDictionary x:Key="DarkTheme">
+        <ImageBrush x:Key="JournalBackground" ImageSource="background.png" Stretch="UniformToFill"/>
+        <SolidColorBrush x:Key="JournalOverlay" Color="#000000" Opacity="0.5"/>
+        <SolidColorBrush x:Key="JournalForeground" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="JournalSecondaryForeground" Color="#E2E8F0"/>
+        <SolidColorBrush x:Key="JournalButtonBackground" Color="#1E293B" Opacity="0.85"/>
+        <SolidColorBrush x:Key="JournalButtonHover" Color="#334155" Opacity="1.0"/>
+        <SolidColorBrush x:Key="JournalBorder" Color="#60A5FA"/>
+        <SolidColorBrush x:Key="JournalCardBackground" Color="#1E293B" Opacity="0.75"/>
+    </ResourceDictionary>
+
+</ResourceDictionary>

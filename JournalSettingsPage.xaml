@@ -1,0 +1,141 @@
+<Window x:Class="NOT_VE_GÜNLÜK.JournalSettingsPage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Günlük Ayarları" Height="700" Width="900"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource JournalBackground}">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="50,30,50,0">
+            <Button HorizontalAlignment="Left"
+                    Width="35" Height="35" Background="Transparent" 
+                    BorderThickness="0" Cursor="Hand" Click="Back_Click">
+                <TextBlock Text="←" FontSize="24" FontWeight="Bold" Foreground="{DynamicResource JournalSecondaryForeground}"/>
+            </Button>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                <Button x:Name="btnLightTheme" Content="☀️" FontSize="18" 
+                        Background="Transparent" BorderThickness="0" Cursor="Hand"
+                        Click="Theme_Click" Tag="Light" Opacity="0.6">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="1.0"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button x:Name="btnDarkTheme" Content="🌙" FontSize="18" 
+                        Background="Transparent" BorderThickness="0" Cursor="Hand"
+                        Click="Theme_Click" Tag="Dark" Opacity="0.6" Margin="15,0,0,0">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="1.0"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel Margin="50,10,50,40">
+                <Grid Margin="0,0,0,25">
+                    <TextBlock Text="Geçmiş Günler" FontSize="28" FontWeight="Bold"
+                               Foreground="{DynamicResource JournalForeground}"/>
+                    <Button Content="📅 Bugüne Dön" HorizontalAlignment="Right" VerticalAlignment="Center"
+                            Padding="15,8" Background="{DynamicResource JournalButtonBackground}" 
+                            Foreground="{DynamicResource JournalForeground}" BorderBrush="{DynamicResource JournalBorder}"
+                            BorderThickness="1" Cursor="Hand" Click="Today_Click">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="8"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </Grid>
+                
+                <!-- Arama Kutusu -->
+                <Border Background="{DynamicResource JournalButtonBackground}" CornerRadius="10" Padding="15" Margin="0,0,0,25">
+                    <Grid>
+                        <TextBlock Text="🔍" FontSize="16" HorizontalAlignment="Left" 
+                                    VerticalAlignment="Center" Margin="5,0,0,0" Foreground="{DynamicResource JournalSecondaryForeground}"/>
+                        <TextBox x:Name="txtSearch" FontSize="14" Padding="30,0,10,0"
+                                 Background="Transparent" BorderThickness="0" Foreground="{DynamicResource JournalForeground}"
+                                 VerticalAlignment="Center" CaretBrush="{DynamicResource JournalForeground}"/>
+                        <TextBlock Text="Ara..." FontSize="14" Foreground="{DynamicResource JournalSecondaryForeground}"
+                                   IsHitTestVisible="False" Padding="30,0,10,0"
+                                   VerticalAlignment="Center">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Text, ElementName=txtSearch}" Value="">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Grid>
+                </Border>
+                
+                <!-- Günler Listesi -->
+                <ListBox x:Name="lstEntries" Background="Transparent" BorderThickness="0" 
+                         ItemsSource="{Binding FilteredEntries}" Margin="0" Padding="0"
+                         HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="{DynamicResource JournalButtonBackground}" BorderBrush="{DynamicResource JournalBorder}" BorderThickness="1" 
+                                    CornerRadius="8" Padding="20" Margin="0,0,0,12" Cursor="Hand">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="{DynamicResource JournalButtonHover}"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <Grid>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Date, StringFormat='d MMMM yyyy', ConverterCulture='tr-TR'}" FontSize="13" Foreground="{DynamicResource JournalSecondaryForeground}"/>
+                                            <TextBlock Text="{Binding Title}" FontSize="16" FontWeight="SemiBold" 
+                                                       Foreground="{DynamicResource JournalForeground}" Margin="0,5,0,0"/>
+                                        </StackPanel>
+                                        <TextBlock Text="→" FontSize="20" Foreground="{DynamicResource JournalSecondaryForeground}"
+                                                   HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                    </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Padding" Value="0"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBoxItem">
+                                        <ContentPresenter />
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <EventSetter Event="PreviewMouseLeftButtonDown" Handler="Entry_Click"/>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>

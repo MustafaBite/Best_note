@@ -1,0 +1,22 @@
+# Build outputs
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# SQLite databases
+*.db
+*.db-shm
+*.db-wal
+
+# Temp / wpftmp project files
+*_wpftmp.csproj
+
+# OS
+Thumbs.db
+Desktop.ini
